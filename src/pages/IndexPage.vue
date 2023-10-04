@@ -1,30 +1,22 @@
 <template>
-  <q-page class="row">
+  <q-page class="row" style="min-height: 100%;">
   <header>
       <p class="header__subtitle">Material Design</p>
       <div class="header__title-wrapper">
         <h1 class="header__title">Simple Chat Application</h1>
-        <q-btn class="header__btn" color="primary" icon="add" label="ADD NEW PERSON" rounded/>
+        <q-btn class="header__btn" :disabled="chatStore.peopleList.length >= 9 ? true : false" color="primary" icon="add" label="ADD NEW PERSON" rounded @click="addNewPerson"/>
       </div>
       <hr>
     </header>
     <body>
       <section class="chat-wrapper">
         <div class="chat-fields">
-          <chat-field title="Person 1"></chat-field>
-          <chat-field title="Person 1"></chat-field>
-          <chat-field title="Person 1"></chat-field>
-          <chat-field title="Person 1"></chat-field>
-          <chat-field title="Person 1"></chat-field>
-          <chat-field title="Person 1"></chat-field>
-          <chat-field title="Person 1"></chat-field>
-          <chat-field title="Person 1"></chat-field>
+          <chat-field v-for="person in chatStore.peopleList" :key="person.id" :name="'Person ' + person.id"/>
         </div>
         <div class="chat-window">
           <h2 class="chat-window__title">Chat Window</h2>
           <div class="chat-window__list">
             <chat-window-list></chat-window-list>
-            <q-btn color="primary" icon="add" label="CLEAR CHAT WINDOW" rounded class="chat-window__btn"/>
           </div>
         </div>
       </section>
@@ -32,43 +24,18 @@
   </q-page>
 </template>
 
-<script lang="ts">
-import { Todo, Meta } from 'components/models';
-import ChatWindowList from 'components/ChatWindowList.vue';
-import ChatField from 'components/ChatField.vue';
-import { defineComponent, ref } from 'vue';
-export default defineComponent({
-  name: 'IndexPage',
-  components: { ChatField, ChatWindowList },
-  setup () {
-    const todos = ref<Todo[]>([
-      {
-        id: 1,
-        content: 'ct1'
-      },
-      {
-        id: 2,
-        content: 'ct2'
-      },
-      {
-        id: 3,
-        content: 'ct3'
-      },
-      {
-        id: 4,
-        content: 'ct4'
-      },
-      {
-        id: 5,
-        content: 'ct5'
-      }
-    ]);
-    const meta = ref<Meta>({
-      totalCount: 1200
-    });
-    return { todos, meta };
-  }
-});
+<script setup lang="ts">
+  import ChatWindowList from 'components/ChatWindowList.vue';
+  import ChatField from 'components/ChatField.vue';
+  import { defineComponent, ref } from 'vue';
+  import { storeToRefs } from 'pinia';
+  import { useChatStore } from 'src/store/chat.ts';
+
+  const chatStore = useChatStore();
+
+  const addNewPerson = () => {
+    chatStore.addPerson();
+  };
 </script>
 
 <style scope>
@@ -118,6 +85,7 @@ export default defineComponent({
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     grid-column-gap: 16px;
+    grid-auto-flow: column;
     grid-row-gap: 0px;
     margin-left: 16px;
   }

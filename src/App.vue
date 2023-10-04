@@ -4,8 +4,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import { Quasar } from 'quasar';
 
-export default defineComponent({
-  name: 'App'
-});
+const app = createApp();
+app.use(createPinia());
+app.use(Quasar);
+
+app.mount('#root');
 </script>

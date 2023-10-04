@@ -1,56 +1,52 @@
 <template>
-  <section>
+  <q-scroll-area style="height: 100%;">
      <q-list>
-      <q-item>
+      <q-item v-if="data.messages.length == 0" class="chat-list--empty">
+        <p>There are no messages in this chat yet.</p>
+      </q-item>
+      <q-item v-for="message in data.messages" :key="message.text">
         <q-item-section avatar>
           <q-icon color="dark" name="bookmark" />
         </q-item-section>
         <q-item-section>
-          <q-item-label>Person 1</q-item-label>
-          <q-item-label caption>Lorem ipsum dolores.</q-item-label>
+          <q-item-label>{{ message.id }}</q-item-label>
+          <q-item-label caption>{{ message.text }}</q-item-label>
           <q-separator class="q-mt-sm"  />
         </q-item-section>
       </q-item>
     </q-list>
-  </section>
+  </q-scroll-area>
+  <q-btn color="primary" icon="add" label="CLEAR CHAT WINDOW" @click="clearChatHistory" :disabled="!data.messages" rounded class="chat-window__btn"/>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  PropType,
-  computed,
-  ref,
-  toRef,
-  Ref,
-} from 'vue';
-import { Todo, Meta } from './models';
+<script setup lang="ts">
+  import { reactive } from 'vue';
+  import { Observable, Observer } from 'rxjs';
+  import { messageService } from 'src/services/Messageservice';
 
-function useClickCount() {
-  const clickCount = ref(0);
-  function increment() {
-    clickCount.value += 1
-    return clickCount.value;
-  }
+  interface IMessage {
+    id: string
+    text: string
+  };
 
-  return { clickCount, increment };
-}
+  const data = reactive({ messages: [] as IMessage });
 
-function useDisplayTodo(todos: Ref<Todo[]>) {
-  const todoCount = computed(() => todos.value.length);
-  return { todoCount };
-}
+  const subscription = messageService.getMessage().subscribe((message) => {
+      if (message) {
+        data.messages.push({id: message.text.id, text: message.text.text});
+      } else {
+        data.messages = [];
+      }
+  });
 
-export default defineComponent({
-  name: 'ChatWindowList',
-  // props: {
-  //   title: {
-  //     type: String,
-  //     required: true
-  //   },
-  // },
-  // setup (props) {
-  //   return { ...useClickCount(), ...useDisplayTodo(toRef(props, 'todos')) };
-  // },
-});
+  const clearChatHistory = () => {
+    data.messages.length = 0;
+  };
 </script>
+
+<style>
+  .chat-list--empty {
+    margin-top: 48px;
+    justify-content: center;
+  }
+</style>

@@ -6,26 +6,28 @@
     :href="link"
   >
     <q-item-section>
-      <q-input type="textarea" min-rows="2" max-height="128" outlined v-model="text" :label="title" stack-label :dense="dense" placeholder="Enter your message here..." />
+      <q-input type="textarea" min-rows="2" max-height="128" outlined v-model="data.text" :label="name" stack-label :dense="dense" placeholder="Enter your message here..." />
       <div class="chat-field__btn-wrapper">
-        <q-btn color="secondary" icon="keyboard_arrow_right" label="SEND" rounded class="chat-field__btn"/>
+        <q-btn color="secondary" icon="keyboard_arrow_right" :disabled="!data.text" label="SEND" rounded class="chat-field__btn" @click="sendMessage(data.text)"/>
       </div>
     </q-item-section>
   </q-item>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+  import { ref, toRefs, reactive } from 'vue';
+  import { messageService } from 'src/services/Messageservice';
 
-export default defineComponent({
-  name: 'ChatField',
-  props: {
-    title: {
-      type: String,
-      default: ''
-    },
+  const props = defineProps({
+    name: String
+  });
+  const { name } = toRefs(props);
+
+  const data = reactive({ text: ''});
+  const sendMessage = (text: string, id: string) => {
+    messageService.sendMessage({text: data.text, id: name.value});
+    data.text = '';
   }
-});
 </script>
 
 <style>
