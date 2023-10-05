@@ -11,16 +11,5 @@ import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'MainLayout',
-
-  components: {
-  },
-
-  setup () {
-    return {
-      // toggleLeftDrawer () {
-      //   leftDrawerOpen.value = !leftDrawerOpen.value
-      // }
-    }
-  }
 });
 </script>

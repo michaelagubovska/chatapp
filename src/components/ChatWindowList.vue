@@ -21,7 +21,6 @@
 
 <script setup lang="ts">
   import { reactive } from 'vue';
-  import { Observable, Observer } from 'rxjs';
   import { messageService } from 'src/services/Messageservice';
 
   interface IMessage {
@@ -33,7 +32,8 @@
 
   const subscription = messageService.getMessage().subscribe((message) => {
       if (message) {
-        data.messages.push({id: message.text.id, text: message.text.text});
+        data.messages.push({id: message.id, text: message.text});
+        
       } else {
         data.messages = [];
       }

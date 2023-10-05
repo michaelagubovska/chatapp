@@ -27,7 +27,6 @@
 <script setup lang="ts">
   import ChatWindowList from 'components/ChatWindowList.vue';
   import ChatField from 'components/ChatField.vue';
-  import { defineComponent, ref } from 'vue';
   import { storeToRefs } from 'pinia';
   import { useChatStore } from 'src/store/chat.ts';
 

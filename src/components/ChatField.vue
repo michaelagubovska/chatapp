@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, toRefs, reactive } from 'vue';
+  import { toRefs, reactive } from 'vue';
   import { messageService } from 'src/services/Messageservice';
 
   const props = defineProps({
