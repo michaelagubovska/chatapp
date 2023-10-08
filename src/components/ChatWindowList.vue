@@ -40,8 +40,9 @@
   });
 
   const clearChatHistory = () => {
-    data.messages.length = 0;
-  };
+    // data.messages.length = 0;
+    messageService.sendMessage('');
+  }
 </script>
 
 <style>
