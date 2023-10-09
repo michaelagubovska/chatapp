@@ -15,9 +15,7 @@
         </div>
         <div class="chat-window">
           <h2 class="chat-window__title">Chat Window</h2>
-          <div class="chat-window__list">
-            <chat-window-list></chat-window-list>
-          </div>
+          <chat-window-list></chat-window-list>
         </div>
       </section>
     </body>
@@ -105,22 +103,5 @@
     font-size: 16px;
     line-height: 1.6rem;
     margin-top: 0;
-  }
-
-  .chat-window__list {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    box-shadow: 0 0 5px grey;
-  }
-
-  .chat-window__btn {
-    margin: 12px;
-    align-self: self-end;
   }
 </style>

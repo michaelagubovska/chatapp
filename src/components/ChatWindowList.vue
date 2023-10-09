@@ -1,4 +1,5 @@
 <template>
+<div class="chat-window__list">
   <q-scroll-area style="height: 100%;">
      <q-list>
       <q-item v-if="data.messages.length == 0" class="chat-list--empty">
@@ -16,7 +17,8 @@
       </q-item>
     </q-list>
   </q-scroll-area>
-  <q-btn color="primary" icon="add" label="CLEAR CHAT WINDOW" @click="clearChatHistory" :disabled="!data.messages" rounded class="chat-window__btn"/>
+  <q-btn color="primary" icon="add" label="CLEAR CHAT WINDOW" @click="clearChatHistory" :disabled="!data.messages.length" rounded class="chat-window__btn"/>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -40,7 +42,7 @@
   });
 
   const clearChatHistory = () => {
-    // data.messages.length = 0;
+    data.messages.length = 0;
     messageService.sendMessage('');
   }
 </script>
@@ -49,5 +51,23 @@
   .chat-list--empty {
     margin-top: 48px;
     justify-content: center;
+  }
+
+  .chat-window__list {
+    min-height: 90vh;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    box-shadow: 0 0 5px grey;
+  }
+
+  .chat-window__btn {
+    margin: 12px;
+    align-self: self-end;
   }
 </style>
